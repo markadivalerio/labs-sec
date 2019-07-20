@@ -1,0 +1,47 @@
+policy_module(wiki, 1.0.0)
+
+
+########################################
+#
+# Declarations
+#
+
+type wiki_t;
+type wiki_exec_t;
+init_daemon_domain(wiki_t, wiki_exec_t)
+
+# permissive wiki_t;
+
+########################################
+#
+# wiki local policy
+#
+
+domain_use_interactive_fds(wiki_t)
+
+# files_read_etc_files(wiki_t)
+
+miscfiles_read_localization(wiki_t)
+
+sysnet_dns_name_resolve(wiki_t)
+
+require {
+        type http_cache_port_t;
+        type sysctl_net_t;
+        type user_home_t;
+        type wiki_t;
+        type node_t;
+        class dir {search write add_name create};
+        class file { open read write add_name create};
+        class tcp_socket { accept listen name_bind node_bind };
+}
+
+#============= wiki_t ==============
+allow wiki_t http_cache_port_t:tcp_socket name_bind;
+allow wiki_t node_t:tcp_socket node_bind;
+allow wiki_t self:tcp_socket { accept listen };
+allow wiki_t sysctl_net_t:dir search;
+allow wiki_t sysctl_net_t:file { open read };
+allow wiki_t user_home_t:dir {search write add_name create};
+allow wiki_t user_home_t:file { open read write create};
+

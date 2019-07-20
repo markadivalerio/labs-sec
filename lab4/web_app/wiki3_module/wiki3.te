@@ -1,0 +1,5 @@
+policy_module(wiki3, 1.0)
+
+role wiki3_r;
+
+userdom_unpriv_user_template(wiki3)

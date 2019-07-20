@@ -1,0 +1,25 @@
+policy_module(wiki1, 1.0)
+
+role wiki1_r;
+
+userdom_unpriv_user_template(wiki1)
+
+
+# type simple_var_t;
+
+# files_type(simple_var_t)
+
+require {
+   class dir { add_name search write };
+   class file { open read create write getattr };
+}
+
+########################################
+#
+# simple local policy
+#
+#
+# type_transition simple_t simple_var_t:file simple_var_t;
+
+# allow simple_t simple_var_t:dir { search add_name write };
+# allow simple_t simple_var_t:file { create open write read getattr };

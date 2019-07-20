@@ -1,0 +1,37 @@
+
+module my-wiki2 1.0;
+
+require {
+	type user_home_t;
+	type sysctl_net_t;
+	type wiki_t;
+	type http_cache_port_t;
+	type node_t;
+	class dir { search write };
+	class file { open read };
+	class tcp_socket { accept listen name_bind node_bind };
+}
+
+#============= wiki_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow wiki_t http_cache_port_t:tcp_socket name_bind;
+
+#!!!! This avc is allowed in the current policy
+allow wiki_t node_t:tcp_socket node_bind;
+
+#!!!! This avc is allowed in the current policy
+allow wiki_t self:tcp_socket { accept listen };
+
+#!!!! This avc is allowed in the current policy
+allow wiki_t sysctl_net_t:dir search;
+
+#!!!! This avc is allowed in the current policy
+allow wiki_t sysctl_net_t:file { open read };
+
+#!!!! This avc is allowed in the current policy
+allow wiki_t user_home_t:dir search;
+allow wiki_t user_home_t:dir write;
+
+#!!!! This avc is allowed in the current policy
+allow wiki_t user_home_t:file { open read };

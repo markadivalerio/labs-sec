@@ -1,0 +1,5 @@
+policy_module(wiki2, 1.0)
+
+role wiki2_r;
+
+userdom_unpriv_user_template(wiki2)
