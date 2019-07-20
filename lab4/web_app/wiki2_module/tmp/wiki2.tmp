@@ -48723,3 +48723,24 @@ bool pppd_for_user;
 ##### end userdom_unpriv_user_template(wiki2) depth: 0
 #line 5
  	
+
+require {
+        type http_cache_port_t;
+        type sysctl_net_t;
+        type user_home_t;
+        type wiki2_t;
+        type node_t;
+        class dir {search write add_name create};
+        class file { open read write add_name create};
+        class tcp_socket { accept listen name_bind node_bind };
+}
+
+#============= wiki2_t ==============
+#allow wiki2_t http_cache_port_t:tcp_socket name_bind;
+#allow wiki2_t node_t:tcp_socket node_bind;
+#allow wiki2_t self:tcp_socket { accept listen };
+#allow wiki2_t sysctl_net_t:dir search;
+#allow wiki2_t sysctl_net_t:file { open read };
+allow wiki2_t user_home_t:dir {search write add_name create};
+allow wiki2_t user_home_t:file { open read write create};
+
