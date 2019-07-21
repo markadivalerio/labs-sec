@@ -6,6 +6,7 @@ Description=Simple Example
 ExecStart=/home/osboxes/labs-sec/lab4/web_app/wiki
 WorkingDirectory=/home/osboxes/labs-sec/lab4/web_app
 User=osboxes
+#ExecStart=/usr/local/share/wiki
 Environment=RUNMODE=production
 
 [Install]
