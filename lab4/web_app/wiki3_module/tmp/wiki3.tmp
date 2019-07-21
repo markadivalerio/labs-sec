@@ -48723,3 +48723,70 @@ bool pppd_for_user;
 ##### end userdom_unpriv_user_template(wiki3) depth: 0
 #line 5
  	
+
+require {
+        type http_cache_port_t;
+        type sysctl_net_t;
+        type user_home_t;
+        type node_t;
+	type sysadm_t;
+	type usr_t;
+	class dir {search write add_name create};
+        class file { open read write add_name create};
+        class tcp_socket { accept listen name_bind node_bind };
+	class service { start stop status reload kill load enable disable };
+	class dbus { acquire_svc send_msg };
+}
+
+ 	 	
+#line 21
+##### begin domain_use_interactive_fds(wiki3_t) depth: 1
+#line 21
+ 	
+#line 21
+	
+#line 21
+	
+#line 21
+		require {
+#line 21
+			
+#line 21
+		attribute privfd;
+#line 21
+	
+#line 21
+		} # end require
+#line 21
+	
+#line 21
+
+#line 21
+
+#line 21
+	allow wiki3_t privfd:fd use;
+#line 21
+
+#line 21
+	 	
+#line 21
+##### end domain_use_interactive_fds(wiki3_t) depth: 0
+#line 21
+ 	
+#files_usr_filetrans(wiki3_t, usr_t, file)
+
+#============= wiki2_t ==============
+allow wiki3_t http_cache_port_t:tcp_socket name_bind;
+allow wiki3_t node_t:tcp_socket node_bind;
+allow wiki3_t self:tcp_socket { accept listen };
+allow wiki3_t sysctl_net_t:dir search;
+allow wiki3_t sysctl_net_t:file { open read };
+allow wiki3_t user_home_t:dir {search write add_name create};
+allow wiki3_t user_home_t:file { open read write add_name create};
+allow wiki3_t self:dbus {acquire_svc send_msg};
+allow sysadm_t wiki3_t:dbus send_msg;
+allow wiki3_t sysadm_t:dbus send_msg;
+allow wiki3_t self:service { start stop status reload kill load enable disable };
+allow wiki3_t usr_t:dir { search write add_name create};
+allow wiki3_t usr_t:file { open read write create add_name};
+

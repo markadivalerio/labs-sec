@@ -48774,6 +48774,7 @@ require {
 ##### end domain_use_interactive_fds(wiki2_t) depth: 0
 #line 22
  	
+#files_usr_filetrans(wiki2_t, usr_t, file)
 
 #============= wiki2_t ==============
 allow wiki2_t http_cache_port_t:tcp_socket name_bind;

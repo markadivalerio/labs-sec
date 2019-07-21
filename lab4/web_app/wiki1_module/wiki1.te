@@ -4,22 +4,35 @@ role wiki1_r;
 
 userdom_unpriv_user_template(wiki1)
 
-
-# type simple_var_t;
-
-# files_type(simple_var_t)
-
 require {
-   class dir { add_name search write };
-   class file { open read create write getattr };
+        type http_cache_port_t;
+        type sysctl_net_t;
+        type user_home_t;
+        type node_t;
+	type sysadm_t;
+	type usr_t;
+	class dir {search write add_name create};
+        class file { open read write add_name create};
+        class tcp_socket { accept listen name_bind node_bind };
+	class service { start stop status reload kill load enable disable };
+	class dbus { acquire_svc send_msg };
 }
 
-########################################
-#
-# simple local policy
-#
-#
-# type_transition simple_t simple_var_t:file simple_var_t;
+domain_use_interactive_fds(wiki1_t)
+#files_usr_filetrans(wiki1_t, usr_t, file)
 
-# allow simple_t simple_var_t:dir { search add_name write };
-# allow simple_t simple_var_t:file { create open write read getattr };
+#============= wiki2_t ==============
+allow wiki1_t http_cache_port_t:tcp_socket name_bind;
+allow wiki1_t node_t:tcp_socket node_bind;
+allow wiki1_t self:tcp_socket { accept listen };
+allow wiki1_t sysctl_net_t:dir search;
+allow wiki1_t sysctl_net_t:file { open read };
+allow wiki1_t user_home_t:dir {search write add_name create};
+allow wiki1_t user_home_t:file { open read write add_name create};
+allow wiki1_t self:dbus {acquire_svc send_msg};
+allow sysadm_t wiki1_t:dbus send_msg;
+allow wiki1_t sysadm_t:dbus send_msg;
+allow wiki1_t self:service { start stop status reload kill load enable disable };
+allow wiki1_t usr_t:dir { search write add_name create};
+allow wiki1_t usr_t:file { open read write create add_name};
+
